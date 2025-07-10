@@ -63,7 +63,8 @@ const GithubStatusCard: React.FC<GithubStatusCardProps> = ({ glowEnabled }) => {
       setLoading(false);
     }
     fetchStats();
-    const interval = setInterval(fetchStats, 60000);
+    // THE CHANGE IS HERE: Refresh every 5 minutes (300000ms) instead of every minute
+    const interval = setInterval(fetchStats, 5 * 60 * 1000);
     return () => clearInterval(interval);
   }, []);
 

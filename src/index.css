@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Workbench&display=swap'); /* NOVA LINHA AQUI */
+@import 'pattern.css/dist/pattern.min.css'; /* Add this line */
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;

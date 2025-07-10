@@ -12,7 +12,7 @@ const HomePage = () => {
   const [displayed, setDisplayed] = useState("");
   const [showCursor, setShowCursor] = useState(true);
   const [scanlinesEnabled, setScanlinesEnabled] = useState(true);
-  const [glowEnabled, setGlowEnabled] = useState(true); // Novo estado para o efeito de glow
+  const [glowEnabled, setGlowEnabled] = useState(true);
 
   useEffect(() => {
     let timeout: number;
@@ -24,7 +24,6 @@ const HomePage = () => {
         index++;
         timeout = window.setTimeout(type, TYPE_SPEED);
       } else {
-        // Wait, then restart
         timeout = window.setTimeout(() => {
           setDisplayed("");
           index = 0;
@@ -39,7 +38,6 @@ const HomePage = () => {
     };
   }, []);
 
-  // Efeito para adicionar/remover a classe 'scanlines-active' do body
   useEffect(() => {
     if (scanlinesEnabled) {
       document.body.classList.add('scanlines-active');
@@ -62,7 +60,7 @@ const HomePage = () => {
   const workbenchFont = 'Workbench, monospace, sans-serif';
 
   return (
-    <Layout style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', margin: 0, padding: 0, background: '#000' }}>
+    <Layout style={{ position: 'fixed', top: 20, left: 0, width: '100vw', height: '100vh', margin: 0, padding: 0, background: '#000' }}>
       <Layout.Header
         style={{
           backgroundColor: '#000',
@@ -76,7 +74,7 @@ const HomePage = () => {
           alignItems: 'center',
         }}
       >
-        <h1 className={glowEnabled ? "crt-glow" : ""} // Condicionalmente aplica crt-glow
+        <h1 className={glowEnabled ? "crt-glow" : ""}
             style={{
               display: 'inline-block',
               margin: 0,
@@ -85,7 +83,7 @@ const HomePage = () => {
           {displayed}
           <span className="crt-cursor" style={{ opacity: showCursor ? 1 : 0 }}>|</span>
         </h1>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}> {/* Aumentei o gap para acomodar dois switches */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <span style={{ color: '#39ff14', fontSize: '14px', fontFamily: workbenchFont }}>Scanlines</span>
             <Switch
@@ -97,7 +95,7 @@ const HomePage = () => {
             />
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{ color: '#39ff14', fontSize: '14px', fontFamily: workbenchFont }}>Glow</span> {/* Novo texto para o toggle de Glow */}
+            <span style={{ color: '#39ff14', fontSize: '14px', fontFamily: workbenchFont }}>Glow</span>
             <Switch
               checked={glowEnabled}
               onChange={handleGlowToggle}
@@ -109,14 +107,33 @@ const HomePage = () => {
         </div>
       </Layout.Header>
       <Layout.Content style={{ padding: '20px', background: '#000', width: '100%', height: '100%', margin: 0, color: '#39ff14' }}>
-        <p className={glowEnabled ? "crt-glow" : ""} // Condicionalmente aplica crt-glow
+        <p className={glowEnabled ? "crt-glow" : ""}
            style={{ fontFamily: workbenchFont }}>
           I'm Fernando Henrique de Aquino, a Front End Dev
         </p>
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 32 }}>
-          <GithubStatusCard glowEnabled={glowEnabled} /> {/* Passando a prop glowEnabled */}
-          <BibleVerseCard glowEnabled={glowEnabled} /> {/* Passando a prop glowEnabled */}
+          <GithubStatusCard glowEnabled={glowEnabled} />
+          <BibleVerseCard glowEnabled={glowEnabled} />
         </div>
+
+        {/* --- SEPARATOR SECTION (GLOW REMOVED) --- */}
+        <div
+          className="pattern-diagonal-stripes-md" // Removed conditional crt-glow class
+          style={{
+            height: '28px',
+            width: '80%',
+            backgroundColor: 'transparent',
+            margin: '40px auto 20px auto',
+            border: 'none',
+            // boxShadow: 'none', // Removed or set to 'none' if it was here
+            position: 'relative',
+            overflow: 'hidden',
+          }}
+        >
+        
+        </div>
+        {/* --- END SEPARATOR SECTION --- */}
+
       </Layout.Content>
     </Layout>
   );
