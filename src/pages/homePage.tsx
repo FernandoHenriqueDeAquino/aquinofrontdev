@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Layout } from "antd";
 import GithubStatusCard from '../components/GithubStatusCard';
+import BibleVerseCard from '../components/BibleVerseCard';
 
 
 const TYPEWRITER_TEXT = "Aquino Dev";
@@ -48,7 +49,10 @@ const HomePage = () => {
       </Layout.Header>
       <Layout.Content style={{ padding: '20px', background: '#000', width: '100%', height: '100%', margin: 0, color: '#39ff14' }}>
         <p className="crt-glow">Bem-vindo à página inicial do Aquino Dev!</p>
-        <GithubStatusCard />
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 32 }}>
+          <GithubStatusCard />
+          <BibleVerseCard />
+        </div>
       </Layout.Content>
     </Layout>
   );
