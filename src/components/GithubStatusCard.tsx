@@ -21,13 +21,18 @@ type GithubRepo = {
   pushed_at: string | null;
 };
 
+// Adicione a tipagem para a nova prop
+type GithubStatusCardProps = {
+  glowEnabled: boolean;
+};
+
 function daysSince(dateString: string) {
   const last = new Date(dateString);
   const now = new Date();
   return Math.floor((now.getTime() - last.getTime()) / (1000 * 60 * 60 * 24));
 }
 
-const GithubStatusCard: React.FC = () => {
+const GithubStatusCard: React.FC<GithubStatusCardProps> = ({ glowEnabled }) => { // Receba a prop
   const [commitCount, setCommitCount] = useState<number>(0);
   const [repoCount, setRepoCount] = useState<number>(0);
   const [daysLastCommit, setDaysLastCommit] = useState<number | null>(null);
@@ -36,10 +41,8 @@ const GithubStatusCard: React.FC = () => {
   useEffect(() => {
     async function fetchStats() {
       setLoading(true);
-      // Fetch recent events (last 300 events)
       const eventsResp = await fetch(GITHUB_API);
       const events: GithubEvent[] = await eventsResp.json();
-      // Filter for PushEvents (commits)
       const pushEvents = events.filter((e: GithubEvent) => e.type === "PushEvent");
       let totalCommits = 0;
       const repos = new Set<string>();
@@ -51,10 +54,8 @@ const GithubStatusCard: React.FC = () => {
           lastCommitDate = event.created_at;
         }
       }
-      // Fetch all repos to count total repos committed to
       const reposResp = await fetch(GITHUB_REPOS_API);
       const reposData: GithubRepo[] = await reposResp.json();
-      // Only count repos with at least 1 commit (pushed_at not null)
       const committedRepos = reposData.filter((r: GithubRepo) => r.pushed_at);
       setCommitCount(totalCommits);
       setRepoCount(committedRepos.length);
@@ -62,23 +63,26 @@ const GithubStatusCard: React.FC = () => {
       setLoading(false);
     }
     fetchStats();
-    const interval = setInterval(fetchStats, 60000); // refresh every 60s
+    const interval = setInterval(fetchStats, 60000);
     return () => clearInterval(interval);
   }, []);
 
+  const workbenchFont = 'Workbench, monospace, sans-serif';
+
   return (
-    <div className="crt-glow" style={{
-      background: '#111',
-      border: '2px solid #39ff14',
-      borderRadius: 8,
-      padding: 24,
-      color: '#39ff14',
-      fontFamily: 'Fira Mono, Consolas, Courier New, monospace',
-      maxWidth: 400,
-      margin: '32px auto',
-      boxShadow: '0 0 16px #39ff14',
-      textAlign: 'left',
-    }}>
+    <div className={glowEnabled ? "crt-glow" : ""} // Aplica crt-glow condicionalmente
+      style={{
+        background: '#111',
+        border: '2px solid #39ff14',
+        borderRadius: 8,
+        padding: 24,
+        color: '#39ff14',
+        fontFamily: workbenchFont,
+        maxWidth: 400,
+        margin: '32px auto',
+        boxShadow: glowEnabled ? '0 0 16px #39ff14' : 'none', // Condicionalmente aplica o boxShadow
+        textAlign: 'left',
+      }}>
       <h2 style={{marginTop:0}}>GitHub Status</h2>
       {loading ? <p>Loading...</p> : (
         <>

@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 
 const VERSE_API = "https://beta.ourmanna.com/api/v1/get/?format=json";
 
-const BibleVerseCard: React.FC = () => {
+// Adicione a tipagem para a nova prop
+type BibleVerseCardProps = {
+  glowEnabled: boolean;
+};
+
+const BibleVerseCard: React.FC<BibleVerseCardProps> = ({ glowEnabled }) => { // Receba a prop
   const [verse, setVerse] = useState<string>("");
   const [reference, setReference] = useState<string>("");
   const [loading, setLoading] = useState(true);
@@ -30,19 +35,22 @@ const BibleVerseCard: React.FC = () => {
     fetchVerse();
   }, []);
 
+  const workbenchFont = 'Workbench, monospace, sans-serif';
+
   return (
-    <div className="crt-glow" style={{
-      background: '#111',
-      border: '2px solid #39ff14',
-      borderRadius: 8,
-      padding: 24,
-      color: '#39ff14',
-      fontFamily: 'Fira Mono, Consolas, Courier New, monospace',
-      maxWidth: 400,
-      margin: '32px auto',
-      boxShadow: '0 0 16px #39ff14',
-      textAlign: 'left',
-    }}>
+    <div className={glowEnabled ? "crt-glow" : ""} // Aplica crt-glow condicionalmente
+      style={{
+        background: '#111',
+        border: '2px solid #39ff14',
+        borderRadius: 8,
+        padding: 24,
+        color: '#39ff14',
+        fontFamily: workbenchFont,
+        maxWidth: 400,
+        margin: '32px auto',
+        boxShadow: glowEnabled ? '0 0 16px #39ff14' : 'none', // Condicionalmente aplica o boxShadow
+        textAlign: 'left',
+      }}>
       <h2 style={{marginTop:0}}>Verse of the Day</h2>
       {loading ? <p>Loading...</p> : error ? (
         <p style={{ color: '#ff5555' }}>{error}</p>

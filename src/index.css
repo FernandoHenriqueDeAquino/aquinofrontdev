@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Workbench&display=swap'); /* NOVA LINHA AQUI */
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -76,7 +78,7 @@ html, body, #root {
 
   background: #000;
   color: #39ff14;
-  font-family: 'Fira Mono', 'Consolas', 'Courier New', monospace;
+  font-family: 'Workbench', monospace, sans-serif; /* LINHA ALTERADA */
 }
 
 * {
@@ -92,4 +94,40 @@ html, body, #root {
   font-weight: bold;
   text-shadow: 0 0 2px #39ff14, 0 0 10px #39ff14;
   animation: none;
+}
+
+/* A camada (overlay) com as scan lines */
+/* Aplica o efeito de scanlines APENAS quando a classe 'scanlines-active' está no body */
+body.scanlines-active::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
+
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0) 1px,
+    rgba(255, 255, 255, 0.1) 2px,
+    rgba(255, 255, 255, 0.035) 3px
+  );
+
+  animation: scanline 200s linear infinite;
+
+  pointer-events: none;
+
+  z-index: 9999;
+}
+
+/* A definição da animação (keyframes) */
+@keyframes scanline {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 400px;
+  }
 }
